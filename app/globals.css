@@ -1,0 +1,31 @@
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--gray-1);
+  color: var(--gray-12);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--accent-a5);
+  color: var(--gray-12);
+}
+
+a {
+  color: inherit;
+}
+
+main {
+  min-height: 60vh;
+}
