@@ -13,6 +13,11 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
+.radix-themes p {
+  font-family: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+  font-feature-settings: 'liga', 'kern';
+}
+
 * {
   box-sizing: border-box;
 }

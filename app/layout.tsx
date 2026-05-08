@@ -2,6 +2,14 @@ import type { Metadata } from 'next';
 import { Theme } from '@radix-ui/themes';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import { Source_Serif_4 } from 'next/font/google';
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-source-serif',
+});
 import '@radix-ui/themes/styles.css';
 import './globals.css';
 import { Nav } from '@/components/nav';
@@ -24,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${sourceSerif.variable}`}
       suppressHydrationWarning
     >
       <body>

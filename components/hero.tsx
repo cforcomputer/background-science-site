@@ -1,42 +1,96 @@
-'use client';
-
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from './hero.module.css';
 
-const palette = [
-  '#5FB754', // green
-  '#F8B026', // yellow
-  '#F58020', // orange
-  '#DA4137', // red
-  '#963D97', // purple
-  '#1F9DDA', // blue
-];
-
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  });
-
-  const stops = palette.map((_, i) => i / (palette.length - 1));
-  const background = useTransform(scrollYProgress, stops, palette);
-
   return (
-    <section ref={ref} className={styles.wrapper} aria-label="Background Science">
-      <motion.div className={styles.sticky} style={{ backgroundColor: background }}>
-        <div className={styles.glow} aria-hidden />
-        <div className={styles.vignette} aria-hidden />
-        <h1 className={styles.title}>
-          <span className={styles.line}>Background</span>
-          <span className={styles.line}>Science</span>
-        </h1>
+    <section className={styles.wrapper} aria-label="Background Science">
+      <div className={styles.sticky}>
+        <div className={styles.stars} aria-hidden />
+        <div className={styles.starsFar} aria-hidden />
+
+        <svg
+          className={styles.titleSvg}
+          viewBox="0 0 1200 440"
+          preserveAspectRatio="xMidYMid meet"
+          aria-label="Background Science"
+          role="img"
+        >
+          <defs>
+            <linearGradient
+              id="iridescent"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="440"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="#7fdbff" />
+              <stop offset="16%" stopColor="#bef7ff" />
+              <stop offset="32%" stopColor="#fff4a3" />
+              <stop offset="48%" stopColor="#ffb086" />
+              <stop offset="64%" stopColor="#ff8ec5" />
+              <stop offset="82%" stopColor="#a78bfa" />
+              <stop offset="100%" stopColor="#5b6cff" />
+            </linearGradient>
+            <linearGradient
+              id="iridescentBright"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="440"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="#dffaff" />
+              <stop offset="50%" stopColor="#fffae8" />
+              <stop offset="100%" stopColor="#ebe0ff" />
+            </linearGradient>
+          </defs>
+
+          <g
+            textAnchor="middle"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            style={{
+              fontFamily:
+                'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif',
+              fontSize: '220px',
+              fontWeight: 500,
+              letterSpacing: '-0.03em',
+            }}
+          >
+            <text x="595" y="180" fill="none" stroke="rgba(255, 64, 180, 0.55)" strokeWidth="3.5">
+              Background
+            </text>
+            <text x="605" y="180" fill="none" stroke="rgba(64, 200, 255, 0.55)" strokeWidth="3.5">
+              Background
+            </text>
+            <text x="595" y="395" fill="none" stroke="rgba(255, 64, 180, 0.55)" strokeWidth="3.5">
+              Science
+            </text>
+            <text x="605" y="395" fill="none" stroke="rgba(64, 200, 255, 0.55)" strokeWidth="3.5">
+              Science
+            </text>
+
+            <text x="600" y="180" fill="none" stroke="url(#iridescent)" strokeWidth="3">
+              Background
+            </text>
+            <text x="600" y="395" fill="none" stroke="url(#iridescent)" strokeWidth="3">
+              Science
+            </text>
+
+            <text x="600" y="180" fill="none" stroke="url(#iridescentBright)" strokeWidth="0.8">
+              Background
+            </text>
+            <text x="600" y="395" fill="none" stroke="url(#iridescentBright)" strokeWidth="0.8">
+              Science
+            </text>
+          </g>
+        </svg>
+
         <div className={styles.scrollHint} aria-hidden>
           <span className={styles.scrollDot} />
           <span>scroll</span>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
