@@ -7,7 +7,15 @@
       "Bash(npm info *)",
       "Bash(npm pack *)",
       "Bash(npm uninstall *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/shaders/liquid_glass_final_render.frag\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/shaders/lightweight_glass.frag\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/shaders/sdf.glsl\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/shaders/displacement_encoding.glsl\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/lib/src/renderer/rendering/liquid_glass_render_object.dart\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/lib/src/renderer/liquid_glass.dart\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/sdegenaar/liquid_glass_widgets/main/lib/src/renderer/rendering/liquid_glass_layer.dart\")"
     ]
   }
 }
