@@ -59,7 +59,8 @@ float starLayer(vec2 aUv, float scale, float density, float seed, float parallax
   vec2 cell = floor(g);
   vec2 cellUv = fract(g) - 0.5;
   float h = hash21(cell);
-  if (h >= density) return 0.0;
+  float activeDensity = min(0.085, density * (1.0 + streak * 0.72));
+  if (h >= activeDensity) return 0.0;
 
   vec2 starOff = (vec2(hash21(cell + 1.7), hash21(cell + 3.1)) - 0.5) * 0.6;
   vec2 delta = cellUv - starOff;
@@ -70,10 +71,15 @@ float starLayer(vec2 aUv, float scale, float density, float seed, float parallax
   );
   twinkle = mix(twinkle, 1.0, streak);
 
-  float dotSize = mix(0.06, 0.018, streak);
-  float stretchY = 1.0 + streak * 32.0;
-  float dist = length(vec2(delta.x * (1.0 + streak * 2.2), delta.y / stretchY));
-  return smoothstep(dotSize, 0.0, dist) * twinkle;
+  float dotMask = smoothstep(0.055, 0.0, length(delta));
+  float pulledY = delta.y - streak * 0.30;
+  float trailLen = 0.08 + streak * 1.18;
+  float core = exp(-pulledY * pulledY * 18.0);
+  float halfWidth = mix(0.018, 0.034, streak) * (0.55 + core * 0.75);
+  float xMask = smoothstep(halfWidth, 0.0, abs(delta.x));
+  float yMask = smoothstep(trailLen, 0.0, abs(pulledY));
+  float streakMask = xMask * yMask * (0.55 + core * 0.75);
+  return mix(dotMask, streakMask, streak) * twinkle;
 }
 
 vec3 computeStars(vec2 aUv, float streak) {
@@ -85,72 +91,34 @@ vec3 computeStars(vec2 aUv, float streak) {
   return c;
 }
 
-vec3 spectralTrail(float t) {
-  vec3 blue = vec3(0.08, 0.30, 1.00);
-  vec3 white = vec3(1.00, 0.98, 0.92);
-  vec3 red = vec3(1.00, 0.10, 0.035);
-  vec3 blueToWhite = mix(blue, white, smoothstep(0.10, 0.50, t));
-  return mix(blueToWhite, red, smoothstep(0.52, 0.98, t));
-}
-
-vec3 lightSpeedStarLayer(vec2 aUv, float scale, float density, float seed, float parallax, float warp) {
-  vec2 g = (aUv + vec2(0.0, u_scroll * parallax * 0.42)) * scale + seed;
-  vec2 cell = floor(g);
-  vec2 cellUv = fract(g) - 0.5;
-  float h = hash21(cell);
-  if (h >= density) return vec3(0.0);
-
-  vec2 starOff = (vec2(hash21(cell + 1.7), hash21(cell + 3.1)) - 0.5) * 0.62;
-  vec2 delta = cellUv - starOff;
-
-  float stretchY = 54.0 + warp * 190.0;
-  float width = 3.0 + warp * 4.6;
-  float dotSize = mix(0.018, 0.010, warp);
-  float dist = length(vec2(delta.x * width, delta.y / stretchY));
-  float streakMask = smoothstep(dotSize, 0.0, dist);
-
-  float along = clamp(delta.y + 0.5, 0.0, 1.0);
-  vec3 color = spectralTrail(along);
-  float whiteCore = smoothstep(0.055, 0.0, abs(delta.y)) * (0.25 + warp * 0.45);
-  float pulse = 0.78 + 0.22 * sin(u_time * (0.6 + h) + h * 6.2831);
-  return (color + vec3(whiteCore)) * streakMask * pulse;
-}
-
-vec3 computeLightSpeedStars(vec2 aUv, float warp) {
-  vec3 c = vec3(0.0);
-  c += lightSpeedStarLayer(aUv, 18.0, 0.080, 12.4, 0.9, warp) * 0.95;
-  c += lightSpeedStarLayer(aUv, 28.0, 0.070, 47.8, 1.7, warp) * 0.70;
-  c += lightSpeedStarLayer(aUv, 42.0, 0.052, 91.2, 2.4, warp) * 0.48;
-  return c;
+float computeStarField(vec2 aUv, float streak) {
+  return dot(computeStars(aUv, streak), vec3(0.299, 0.587, 0.114));
 }
 
 vec3 sampleBackdrop(vec2 uv, float streak) {
   float aspect = u_canvasPx.x / max(u_canvasPx.y, 1.0);
   vec2 aUv = vec2(uv.x * aspect, uv.y);
 
-  float lightSpeed = smoothstep(0.86, 1.0, u_scroll);
-  float caShift = streak * 0.028 * (1.0 - lightSpeed * 0.95);
+  float warp = smoothstep(0.48, 1.0, u_scroll);
+  float caShift = streak * (0.0009 + warp * 0.0018);
   vec2 aUvR = vec2(aUv.x, aUv.y - caShift);
   vec2 aUvB = vec2(aUv.x, aUv.y + caShift);
 
-  vec3 bgBase = mix(vec3(0.0), vec3(0.007, 0.005, 0.022), u_scroll);
-  bgBase = mix(bgBase, vec3(0.002, 0.003, 0.030), lightSpeed);
+  vec3 bgBase = mix(vec3(0.0), vec3(0.006, 0.004, 0.018), min(u_scroll, 0.82));
 
-  vec3 splitStars = vec3(
-    computeStars(aUvR, streak).r,
-    computeStars(aUv,  streak).g,
-    computeStars(aUvB, streak).b
-  );
-  vec3 relativisticStars = computeLightSpeedStars(aUv, lightSpeed);
-  vec3 col = bgBase + mix(splitStars, relativisticStars, lightSpeed);
+  float starCore = computeStarField(aUv, streak);
+  float redFringe = computeStarField(aUvR, streak);
+  float blueFringe = computeStarField(aUvB, streak);
+  vec3 splitStars = vec3(starCore) * (0.74 + warp * 0.18);
+  splitStars += vec3(1.0, 0.12, 0.04) * redFringe * warp * 0.24;
+  splitStars += vec3(0.08, 0.24, 1.0) * blueFringe * warp * 0.28;
+  splitStars += vec3(0.56, 0.72, 1.0) * starCore * streak * 0.10;
+  vec3 col = bgBase + splitStars;
 
   if (streak > 0.005) {
     float r = length(uv - 0.5) * 2.0;
-    col += vec3(0.04, 0.06, 0.38) * streak * exp(-r * 2.0);
-    col += vec3(0.10, 0.04, 0.22) * streak * 0.28 * exp(-r * 0.65);
-    col += vec3(0.16, 0.25, 0.70) * lightSpeed * exp(-r * 2.4);
-    col += vec3(0.92, 0.96, 1.00) * lightSpeed * 0.18 * exp(-r * 12.0);
-    col += vec3(0.18, 0.015, 0.010) * lightSpeed * smoothstep(0.45, 1.0, r) * 0.12;
+    col += vec3(0.020, 0.024, 0.090) * streak * exp(-r * 2.0);
+    col += vec3(0.055, 0.010, 0.045) * streak * warp * 0.12 * exp(-r * 0.8);
   }
 
   return col;
