@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GeistSans } from 'geist/font/sans';
 import styles from './glass-text.module.css';
 
@@ -566,6 +566,22 @@ function buildTextTexture(
 }
 
 const FONT_FAMILY = `${GeistSans.style.fontFamily}, -apple-system, BlinkMacSystemFont, sans-serif`;
+const FONT_LOAD_TIMEOUT_MS = 350;
+
+async function waitForDisplayFont(fontSize: number, fontWeight: string) {
+  if (!('fonts' in document)) return;
+
+  const primaryFamily = GeistSans.style.fontFamily.split(',')[0]?.trim() || 'sans-serif';
+
+  try {
+    await Promise.race([
+      document.fonts.load(`${fontWeight} ${fontSize}px ${primaryFamily}`),
+      new Promise((resolve) => window.setTimeout(resolve, FONT_LOAD_TIMEOUT_MS)),
+    ]);
+  } catch {
+    // The fallback wordmark is already visible, so a font loading miss should not block WebGL.
+  }
+}
 
 export function GlassText({
   text,
@@ -575,6 +591,7 @@ export function GlassText({
   scrollRef,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [canvasReady, setCanvasReady] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -582,9 +599,10 @@ export function GlassText({
 
     let cancelled = false;
     let cleanup: (() => void) | undefined;
+    setCanvasReady(false);
 
     const init = async () => {
-      try { await document.fonts.ready; } catch { /* proceed */ }
+      await waitForDisplayFont(fontSize, fontWeight);
       if (cancelled) return;
 
       const gl = canvas.getContext('webgl2', {
@@ -666,6 +684,7 @@ export function GlassText({
 
         const start = performance.now();
         let raf = 0;
+        let hasDrawn = false;
         const render = () => {
           mouse.x += (mouseTarget.x - mouse.x) * 0.08;
           mouse.y += (mouseTarget.y - mouse.y) * 0.08;
@@ -681,6 +700,11 @@ export function GlassText({
             gl.clearColor(0, 0, 0, 1);
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+            if (!hasDrawn) {
+              hasDrawn = true;
+              setCanvasReady(true);
+            }
           }
           raf = requestAnimationFrame(render);
         };
@@ -704,5 +728,13 @@ export function GlassText({
     return () => { cancelled = true; cleanup?.(); };
   }, [text, fontSize, fontWeight, letterSpacing, scrollRef]);
 
-  return <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />;
+  return (
+    <div
+      className={`${styles.stage} ${canvasReady ? styles.stageReady : ''}`}
+      aria-hidden="true"
+    >
+      <div className={styles.loadingText}>Loading...</div>
+      <canvas ref={canvasRef} className={styles.canvas} />
+    </div>
+  );
 }
