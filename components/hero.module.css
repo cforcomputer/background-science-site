@@ -27,7 +27,7 @@
 
 .overlay {
   position: absolute;
-  bottom: 14vh;
+  bottom: 18vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;

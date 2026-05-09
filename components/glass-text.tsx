@@ -100,7 +100,7 @@ vec3 sampleBackdrop(vec2 uv, float streak) {
   vec2 aUv = vec2(uv.x * aspect, uv.y);
 
   float warp = smoothstep(0.48, 1.0, u_scroll);
-  float caShift = streak * (0.0009 + warp * 0.0018);
+  float caShift = streak * (0.0038 + warp * 0.0062);
   vec2 aUvR = vec2(aUv.x, aUv.y - caShift);
   vec2 aUvB = vec2(aUv.x, aUv.y + caShift);
 
@@ -110,9 +110,9 @@ vec3 sampleBackdrop(vec2 uv, float streak) {
   float redFringe = computeStarField(aUvR, streak);
   float blueFringe = computeStarField(aUvB, streak);
   vec3 splitStars = vec3(starCore) * (0.74 + warp * 0.18);
-  splitStars += vec3(1.0, 0.12, 0.04) * redFringe * warp * 0.24;
-  splitStars += vec3(0.08, 0.24, 1.0) * blueFringe * warp * 0.28;
-  splitStars += vec3(0.56, 0.72, 1.0) * starCore * streak * 0.10;
+  splitStars += vec3(1.0, 0.12, 0.04) * redFringe * warp * 0.18;
+  splitStars += vec3(0.08, 0.24, 1.0) * blueFringe * warp * 0.21;
+  splitStars += vec3(0.56, 0.72, 1.0) * starCore * streak * 0.08;
   vec3 col = bgBase + splitStars;
 
   if (streak > 0.005) {
@@ -198,7 +198,7 @@ void main() {
   // ── Glass text ──────────────────────────────────────────────────────────────
   vec2 px     = uv * u_canvasPx;
   // Vertically centered in viewport (y=0 is bottom in WebGL)
-  vec2 origin = vec2((u_canvasPx.x - u_textPx.x) * 0.5, (u_canvasPx.y - u_textPx.y) * 0.5);
+  vec2 origin = vec2((u_canvasPx.x - u_textPx.x) * 0.5, (u_canvasPx.y - u_textPx.y) * 0.5 + u_canvasPx.y * 0.045);
   vec2 textUv = (px - origin) / u_textPx;
   textUv.y    = 1.0 - textUv.y;
 
