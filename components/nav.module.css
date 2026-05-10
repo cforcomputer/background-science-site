@@ -11,7 +11,7 @@
 .brand {
   text-decoration: none;
   color: var(--gray-12);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .link {
@@ -21,4 +21,105 @@
 
 .link:hover {
   opacity: 0.7;
+}
+
+.desktopNav {
+  display: block;
+}
+
+.menuButton {
+  display: none;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+  color: var(--gray-12);
+  background: transparent;
+  border: 1px solid var(--gray-a5);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menuButton span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+  transition:
+    opacity 160ms ease,
+    transform 180ms ease;
+}
+
+.menuButton[data-open='true'] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menuButton[data-open='true'] span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuButton[data-open='true'] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobilePanel {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .header {
+    background-color: color-mix(in oklab, var(--gray-1) 82%, transparent);
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+
+  .mobilePanel {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    border-top: 1px solid transparent;
+    opacity: 0;
+    transition:
+      max-height 220ms ease,
+      border-color 220ms ease,
+      opacity 180ms ease;
+  }
+
+  .mobilePanelOpen {
+    max-height: 260px;
+    border-color: var(--gray-a4);
+    opacity: 1;
+  }
+
+  .mobileNav {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) 0 var(--space-4);
+  }
+
+  .mobileLink {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--gray-a3);
+    color: var(--gray-12);
+    font-size: 1rem;
+    text-decoration: none;
+  }
+
+  .mobileLink:last-child {
+    border-bottom: 0;
+  }
 }

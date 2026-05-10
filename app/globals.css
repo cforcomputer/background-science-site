@@ -34,3 +34,51 @@ a {
 main {
   min-height: 60vh;
 }
+
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .radix-themes .rt-Container {
+    padding-left: var(--space-4) !important;
+    padding-right: var(--space-4) !important;
+  }
+
+  .radix-themes h1.rt-Heading {
+    font-size: 3rem !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .radix-themes h2.rt-Heading {
+    font-size: 2.35rem !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .radix-themes h3.rt-Heading {
+    font-size: 2rem !important;
+    line-height: 1.12 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .mobile-grid-span {
+    grid-column: auto !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .radix-themes h1.rt-Heading {
+    font-size: 2.6rem !important;
+  }
+
+  .radix-themes h2.rt-Heading {
+    font-size: 2.1rem !important;
+  }
+
+  .radix-themes h3.rt-Heading {
+    font-size: 1.75rem !important;
+  }
+}

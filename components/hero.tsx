@@ -11,7 +11,20 @@ export function Hero() {
   return (
     <section ref={wrapperRef} className={styles.wrapper} aria-label="Background Science">
       <div className={styles.sticky}>
-        <GlassText text={'BACKGROUND\nSCIENCE'} scrollRef={wrapperRef} fontWeight="600" />
+        <div className={styles.desktopGlass}>
+          <GlassText
+            text={'BACKGROUND\nSCIENCE'}
+            scrollRef={wrapperRef}
+            fontWeight="600"
+            disableBelowPx={768}
+          />
+        </div>
+        <div className={styles.mobileWordmark} aria-hidden="true">
+          <div className={styles.mobileWordmarkText}>
+            <span className={styles.mobileLineTop}>BACKGROUND</span>
+            <span className={styles.mobileLineBottom}>SCIENCE</span>
+          </div>
+        </div>
         <h1 className={styles.srOnly}>Background Science</h1>
         <div className={styles.overlay}>
           <p className={styles.tagline}>

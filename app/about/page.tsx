@@ -71,7 +71,7 @@ export default function About() {
             <Heading as="h2" size="3" color="gray" weight="medium" style={{ gridColumn: 'span 1', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               Why
             </Heading>
-            <Box style={{ gridColumn: 'span 5' }}>
+            <Box className="mobile-grid-span" style={{ gridColumn: 'span 5' }}>
               <Text as="p" size="4" mb="4" style={{ lineHeight: 1.7 }}>
                 Most consulting firms are built to scale headcount. Most
                 research labs are built to publish. Neither is set up to do
@@ -94,7 +94,7 @@ export default function About() {
             <Heading as="h2" size="3" color="gray" weight="medium" style={{ gridColumn: 'span 1', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               Who
             </Heading>
-            <Box style={{ gridColumn: 'span 5' }}>
+            <Box className="mobile-grid-span" style={{ gridColumn: 'span 5' }}>
               <Text as="p" size="4" style={{ lineHeight: 1.7 }}>
                 Background Science is a small team of researchers and
                 engineers with backgrounds in physics, mechanical engineering,

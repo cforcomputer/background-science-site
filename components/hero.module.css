@@ -13,6 +13,16 @@
   background: #000;
 }
 
+.desktopGlass {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.mobileWordmark {
+  display: none;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;
@@ -85,4 +95,144 @@
 
 @media (prefers-reduced-motion: reduce) {
   .scrollDot { animation: none; }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    height: calc(100svh - 57px);
+    min-height: 560px;
+    max-height: 760px;
+    margin-top: 0;
+  }
+
+  .sticky {
+    position: relative;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .desktopGlass {
+    display: none;
+  }
+
+  .mobileWordmark {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem 8.8rem;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 8% 14%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 31% 9%, rgba(255, 255, 255, 0.48) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 72% 16%, rgba(255, 255, 255, 0.56) 0 1px, transparent 1.4px),
+      radial-gradient(circle at 91% 7%, rgba(255, 255, 255, 0.64) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 14% 82%, rgba(255, 255, 255, 0.58) 0 1px, transparent 1.4px),
+      radial-gradient(circle at 84% 78%, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.4px),
+      #000;
+  }
+
+  .mobileWordmark::before,
+  .mobileWordmark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255, 255, 255, 0.55) 0 1px, transparent 1.4px),
+      radial-gradient(circle, rgba(190, 210, 255, 0.42) 0 1px, transparent 1.3px);
+    background-position:
+      16px 28px,
+      53px 73px;
+    background-size:
+      92px 110px,
+      147px 131px;
+  }
+
+  .mobileWordmark::after {
+    opacity: 0.5;
+    transform: translateY(19px);
+  }
+
+  .mobileWordmarkText {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 440px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.18rem;
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 650;
+    line-height: 0.86;
+    letter-spacing: 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: transparent;
+    background:
+      linear-gradient(
+        100deg,
+        #b2774f 0%,
+        #8d3f47 18%,
+        #553452 38%,
+        #172640 57%,
+        #071522 74%,
+        #010204 100%
+      );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke: 1px rgba(226, 235, 255, 0.22);
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 16px rgba(96, 111, 156, 0.26);
+    user-select: none;
+  }
+
+  .mobileLineTop,
+  .mobileLineBottom {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .mobileLineTop {
+    font-size: 2.5rem;
+  }
+
+  .mobileLineBottom {
+    font-size: 4.35rem;
+  }
+
+  .overlay {
+    bottom: 4.25rem;
+    width: min(100% - 2rem, 26rem);
+    gap: 1rem;
+    white-space: normal;
+  }
+
+  .tagline {
+    max-width: 22rem;
+    font-size: 0.96rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .scrollHint {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobileLineTop {
+    font-size: 2.18rem;
+  }
+
+  .mobileLineBottom {
+    font-size: 3.78rem;
+  }
+
+  .overlay {
+    bottom: 3.7rem;
+  }
 }

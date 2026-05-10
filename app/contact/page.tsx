@@ -44,7 +44,7 @@ export default function Contact() {
       <Section size="4">
         <Container size="4" px="5">
           <Grid columns={{ initial: '1', md: '5' }} gap="6">
-            <Box style={{ gridColumn: 'span 3' }}>
+            <Box className="mobile-grid-span" style={{ gridColumn: 'span 3' }}>
               <Card size="4" variant="surface">
                 <Box p="3">
                   <form action="mailto:hello@backgroundscience.com" method="post" encType="text/plain">
@@ -70,7 +70,7 @@ export default function Contact() {
               </Card>
             </Box>
 
-            <Box style={{ gridColumn: 'span 2' }}>
+            <Box className="mobile-grid-span" style={{ gridColumn: 'span 2' }}>
               <Flex direction="column" gap="6">
                 <ContactBlock label="Email">
                   <Text size="3" asChild>

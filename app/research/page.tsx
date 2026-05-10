@@ -117,7 +117,7 @@ export default function Research() {
                   <Text size="2" color="gray" style={{ fontVariantNumeric: 'tabular-nums' }}>
                     {b.n}
                   </Text>
-                  <Box style={{ gridColumn: 'span 5' }}>
+                  <Box className="mobile-grid-span" style={{ gridColumn: 'span 5' }}>
                     <Heading as="h3" size="5" weight="medium" mb="2" style={{ letterSpacing: '-0.015em' }}>
                       {b.title}
                     </Heading>

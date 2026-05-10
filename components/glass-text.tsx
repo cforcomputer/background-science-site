@@ -10,6 +10,7 @@ interface Props {
   fontWeight?: string;
   letterSpacing?: number;
   scrollRef?: React.RefObject<HTMLElement | null>;
+  disableBelowPx?: number;
 }
 
 const VERT = `#version 300 es
@@ -589,11 +590,31 @@ export function GlassText({
   fontWeight = '500',
   letterSpacing = -8,
   scrollRef,
+  disableBelowPx,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasReady, setCanvasReady] = useState(false);
+  const [enabled, setEnabled] = useState(() => !disableBelowPx);
 
   useEffect(() => {
+    if (!disableBelowPx) {
+      setEnabled(true);
+      return;
+    }
+
+    const query = window.matchMedia(`(min-width: ${disableBelowPx}px)`);
+    const updateEnabled = () => setEnabled(query.matches);
+    updateEnabled();
+    query.addEventListener('change', updateEnabled);
+    return () => query.removeEventListener('change', updateEnabled);
+  }, [disableBelowPx]);
+
+  useEffect(() => {
+    if (!enabled) {
+      setCanvasReady(false);
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -726,7 +747,7 @@ export function GlassText({
 
     init();
     return () => { cancelled = true; cleanup?.(); };
-  }, [text, fontSize, fontWeight, letterSpacing, scrollRef]);
+  }, [text, fontSize, fontWeight, letterSpacing, scrollRef, enabled]);
 
   return (
     <div
