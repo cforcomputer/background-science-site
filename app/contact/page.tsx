@@ -47,7 +47,7 @@ export default function Contact() {
             <Box className="mobile-grid-span" style={{ gridColumn: 'span 3' }}>
               <Card size="4" variant="surface">
                 <Box p="3">
-                  <form action="mailto:hello@backgroundscience.com" method="post" encType="text/plain">
+                  <form action="mailto:hello@bgscience.com" method="post" encType="text/plain">
                     <Flex direction="column" gap="4">
                       <Field label="Your name" name="name">
                         <TextField.Root size="3" name="name" placeholder="Ada Lovelace" />
@@ -74,8 +74,8 @@ export default function Contact() {
               <Flex direction="column" gap="6">
                 <ContactBlock label="Email">
                   <Text size="3" asChild>
-                    <a href="mailto:hello@backgroundscience.com" style={{ textDecoration: 'none' }}>
-                      hello@backgroundscience.com
+                    <a href="mailto:hello@bgscience.com" style={{ textDecoration: 'none' }}>
+                      hello@bgscience.com
                     </a>
                   </Text>
                 </ContactBlock>
@@ -87,8 +87,8 @@ export default function Contact() {
                 </ContactBlock>
                 <ContactBlock label="Press & general">
                   <Text size="3" asChild>
-                    <a href="mailto:hello@backgroundscience.com" style={{ textDecoration: 'none' }}>
-                      hello@backgroundscience.com
+                    <a href="mailto:hello@bgscience.com" style={{ textDecoration: 'none' }}>
+                      hello@bgscience.com
                     </a>
                   </Text>
                 </ContactBlock>

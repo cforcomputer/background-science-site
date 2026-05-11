@@ -97,7 +97,7 @@
   }
 
   .mobilePanelOpen {
-    max-height: 260px;
+    max-height: 320px;
     border-color: var(--gray-a4);
     opacity: 1;
   }

@@ -28,7 +28,7 @@ export function Hero() {
         <h1 className={styles.srOnly}>Background Science</h1>
         <div className={styles.overlay}>
           <p className={styles.tagline}>
-            AI automated data collection and sourcing for enterprise.
+            AI automation and custom tooling for business.
           </p>
           <GlassButton href="/services">Get started</GlassButton>
         </div>

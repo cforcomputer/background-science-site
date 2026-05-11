@@ -28,7 +28,7 @@ export function Footer() {
           <FooterCol title="Contact">
             <FooterLink href="/contact">Get in touch</FooterLink>
             <Text size="2" color="gray" asChild>
-              <a href="mailto:hello@backgroundscience.com">hello@backgroundscience.com</a>
+              <a href="mailto:hello@backgroundscience.com">hello@bgscience.com</a>
             </Text>
           </FooterCol>
           <FooterCol title="Office">
@@ -39,7 +39,7 @@ export function Footer() {
         </Grid>
         <Flex justify="between" align="center" mt="8" pt="5" wrap="wrap" gap="3" style={{ borderTop: '1px solid var(--gray-a3)' }}>
           <Text size="1" color="gray">
-            © {new Date().getFullYear()} Background Science
+            © {new Date().getFullYear()} Background Science - A Rapid Response for Necessary Problems Company
           </Text>
           <Text size="1" color="gray">
             Data science · R&D · Software · Hardware

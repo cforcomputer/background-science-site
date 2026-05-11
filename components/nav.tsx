@@ -8,6 +8,7 @@ import styles from './nav.module.css';
 const links = [
   { href: '/services', label: 'Services' },
   { href: '/research', label: 'Research' },
+  { href: '/#projects', label: 'Projects' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
